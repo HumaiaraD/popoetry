@@ -35,6 +35,9 @@ export const POST_BY_AUTHOR_QUERY = defineQuery(`
   *[_type == "post" && defined(slug.current) && author._ref == $id] 
   | order(_createdAt desc) {
     _id,
+    _type,
+    _rev,
+    _updatedAt,
     title,
     slug,
     _createdAt,
@@ -55,6 +58,7 @@ export const POST_BY_AUTHOR_QUERY = defineQuery(`
     body
   }
 `);
+
 
 
 
@@ -109,7 +113,10 @@ export const AUTHOR_BY_GITHUB_ID_QUERY = defineQuery(`
   slug,
   select[]->{
     _id,
+    _type,
     _createdAt,
+    _updatedAt,
+    _rev,
     title,
     slug,
     author->{

@@ -7,7 +7,6 @@ import Link from "next/link";
 import View from "@/components/View";
 import MarkdownIt from "markdown-it";
 import { Skeleton } from "@/components/ui/skeleton";
-import { categoryType } from "@/sanity/schemaTypes/categoryType";
 import { StartupTypeCard } from "@/components/StartupCard";
 import StartupCard from "@/components/StartupCard";
 
@@ -35,10 +34,12 @@ export const experimental_ppr = true;
 const Page = async ({ params }: { params: { id: string } }) => {
   const { id } = params;
 
-  const [ post, { select: poemOfTheDay}] = await Promise.all([
-            client.fetch(POST_BY_ID_QUERY, { id }),
-                  client.fetch(PLAYLIST_BY_SLUG_QUERY, { slug: "poem-of-the-day" }),
-  ])
+  const [post, playlist] = await Promise.all([
+  client.fetch(POST_BY_ID_QUERY, { id }),
+  client.fetch(PLAYLIST_BY_SLUG_QUERY, { slug: "poem-of-the-day" }),
+]);
+
+const poemOfTheDay = (playlist?.select ?? []) as StartupTypeCard[];
 
 
   //  Fetch post from Sanity
@@ -78,7 +79,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
             
          <div className="category-tag">
           <div>
-            {post.categories?.[0]?.title || "Uncategorized"}
+            {post.category}
           </div>
         </div>
 
@@ -99,18 +100,18 @@ const Page = async ({ params }: { params: { id: string } }) => {
 
           <hr className="divider" />
 
-      {poemOfTheDay && (
-        <div className="flex flex-col items-center justify-center mt-10">
-          <h2 className="text-2xl text-center font-bold mb-4">Best of Poetry</h2>
-          <ul>
-            {poemOfTheDay.map((poem: StartupTypeCard) => (
-              <li key={poem._id} className="mt-7 w-80 h-5 mb-6">
-                <StartupCard post={poem} />
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+      {poemOfTheDay.length > 0 && (
+  <div className="flex flex-col items-center justify-center mt-10">
+    <h2 className="text-2xl text-center font-bold mb-4">Best of Poetry</h2>
+    <ul>
+      {poemOfTheDay.map((poem: StartupTypeCard) => (
+        <li key={poem._id} className="mt-7 w-80 h-5 mb-6">
+          <StartupCard post={poem} />
+        </li>
+      ))}
+    </ul>
+  </div>
+)}
 
       <br />
       <br />

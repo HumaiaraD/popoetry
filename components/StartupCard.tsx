@@ -50,7 +50,7 @@ const getSnippet = (body: any) => {
 const snippet = getSnippet(body);
 
   return (
-    <ul className="startup-card group">
+    <li className="border-6 border-black rounded-2xl p-5 group hover:bg-gray-200 hover:border-gray-300 transition-colors duration-300">
       {/* Header */}
       <div className="flex-between">
         <p className="startup_card_date">{formatDate(_createdAt)}</p>
@@ -91,11 +91,11 @@ const snippet = getSnippet(body);
         <Link href={`/?query=${category.toLowerCase()}`}>
           <p className="text-16-medium hover:underline">{category}</p>
         </Link>
-        <Button className="startup-card_btn" asChild>
+        <Button className="bg-black text-white hover:bg-slate-600" asChild>
           <Link href={`/postals/${_id}`}>Details</Link>
         </Button>
       </div>
-    </ul>
+    </li>
   );
 };
 

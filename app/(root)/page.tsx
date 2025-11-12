@@ -1,11 +1,10 @@
 import Image from "next/image";
 import SearchBar from "../../components/SearchBar";
 import StartupCard, { StartupTypeCard } from "../../components/StartupCard";
-import { queryAllAuthors } from "../../sanity/lib/queries"; // ✅ update if needed
-import { sanityFetch, SanityLive } from "@/sanity/lib/live";
+import { queryAllAuthors } from "../../sanity/lib/queries";
 import { auth } from "@/auth";
-
-export const revalidate = 0; // Always fetch fresh data
+import { sanityFetch, SanityLive } from "@/sanity/lib/live";
+export const revalidate = 0;
 
 export default async function Home({
   searchParams,
@@ -18,10 +17,13 @@ export default async function Home({
   const session = await auth();
   console.log(session?.user?.id);
 
-  const { data: posts } = await sanityFetch({
-    query: queryAllAuthors,
-    params,
-  });
+  async function typedSanityFetch<T>(query: string, params?: Record<string, any>): Promise<T> {
+  const { data } = await sanityFetch({ query, params });
+  return data as T;
+}
+
+// Usage
+const posts = await typedSanityFetch<StartupTypeCard[]>(queryAllAuthors, params);
 
   return (
     <>
@@ -43,10 +45,8 @@ export default async function Home({
         </p>
 
         <ul className="mt-7 card-grid">
-          {posts?.length > 0 ? (
-            posts.map((post: StartupTypeCard) => (
-              <StartupCard key={post?._id} post={post} />
-            ))
+          {posts.length > 0 ? (
+            posts.map((post) => <StartupCard key={post._id} post={post} />)
           ) : (
             <p className="text-center text-20-regular">No poems found.</p>
           )}
