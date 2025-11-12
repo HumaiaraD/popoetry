@@ -115,8 +115,6 @@ export const AUTHOR_BY_GITHUB_ID_QUERY = defineQuery(`
     _id,
     _type,
     _createdAt,
-    _updatedAt,
-    _rev,
     title,
     slug,
     author->{
@@ -128,8 +126,6 @@ export const AUTHOR_BY_GITHUB_ID_QUERY = defineQuery(`
     },
     views,
     description,
-    category,
-    image,
-    pitch
+    
   }
 }`);

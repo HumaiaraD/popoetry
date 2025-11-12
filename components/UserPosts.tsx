@@ -11,7 +11,8 @@ interface StartupCardProps {
 
 
 const UserPosts = async ({ id }: { id: string }) => {
-  const userPosts: StartupTypeCard[] = await client.fetch(POST_BY_AUTHOR_QUERY, { id });
+  // Tell fetch what type to return
+  const userPosts = await client.fetch<StartupTypeCard[]>(POST_BY_AUTHOR_QUERY, { id });
 
   return (
     <ul className="space-y-6">

@@ -7,19 +7,19 @@ import Link from "next/link";
 import View from "@/components/View";
 import MarkdownIt from "markdown-it";
 import { Skeleton } from "@/components/ui/skeleton";
-import { StartupTypeCard } from "@/components/StartupCard";
-import StartupCard from "@/components/StartupCard";
+import StartupCard, { StartupTypeCard } from "@/components/StartupCard";
 
 // Initialize markdown-it once (server-side)
 const md = new MarkdownIt();
 
+// Helper to convert Sanity Portable Text body to plain string
 const getBodyString = (body: any) => {
   if (!body) return "";
 
   if (typeof body === "string") return body;
 
   if (Array.isArray(body)) {
-    // Join all block children text
+
     return body
       .filter((b) => b._type === "block" && Array.isArray(b.children))
       .map((b) => b.children.map((c: any) => c.text).join(" "))
@@ -34,92 +34,75 @@ export const experimental_ppr = true;
 const Page = async ({ params }: { params: { id: string } }) => {
   const { id } = params;
 
-  const [post, playlist] = await Promise.all([
-  client.fetch(POST_BY_ID_QUERY, { id }),
-  client.fetch(PLAYLIST_BY_SLUG_QUERY, { slug: "poem-of-the-day" }),
-]);
-
-const poemOfTheDay = (playlist?.select ?? []) as StartupTypeCard[];
+  // Fetch post and playlist in parallel
+ const post = await client.fetch(POST_BY_ID_QUERY, { id });
 
 
-  //  Fetch post from Sanity
   if (!post) return notFound();
 
-  //  Render markdown (server-side)
+  // Map playlist items to StartupTypeCard
+ 
+
+  // Render post body as HTML
   const parsedContent = md.render(getBodyString(post.body));
+
   return (
-    <>
-      {/* Header section */}
-      <main className="min-h-screen">
-      <section className=" pattern black-container">
-        <h1 className="text-6xl font-bold text-white text-center">"{post.title}"</h1>
-        <p className="text-white p-6">{post.author?.name}</p>
-        <p className="text-white">{formatDate(post?._createdAt)}</p>
+    <main className="min-h-screen">
+      {/* Header */}
+      <section className="pattern black-container py-10 text-center">
+        <h1 className="text-6xl font-bold text-white">"{post.title}"</h1>
+        <p className="text-white mt-4">{post.author?.name}</p>
+        <p className="text-white">{formatDate(post._createdAt)}</p>
       </section>
 
-      {/* Body section */}
-      <section className="min-h-screen">
-        <div className="space-y-5 mt-10 max-w-4xl mx-auto">
+      {/* Body */}
+      <section className="min-h-screen py-10">
+        <div className="space-y-5 max-w-4xl mx-auto">
           {/* Author info */}
           <div className="flex-between gap-5">
-            <Link
-              href={`/user/${post.author?._id}`}
-              className="flex gap-2 items-center mb-3"
-            >
-
+            <Link href={`/user/${post.author?._id}`} className="flex gap-2 items-center mb-3">
               <div>
                 <p className="text-20-medium font-italic">{post.title}</p>
                 <p className="text-20-medium font-italic">{post.author?.name}</p>
-                <p className="text-16-medium text-gray-600">
-                  @{post.author?.name}
-                </p>
+                <p className="text-16-medium text-gray-600">@{post.author?.name}</p>
               </div>
             </Link>
 
-            
-         <div className="category-tag">
-          <div>
-            {post.category}
+            {/* Category */}
+            <div className="category-tag">
+              {post.category?.[0] || "Uncategorized"}
+            </div>
           </div>
-        </div>
 
-                  </div>
-
-
-          {/* ✅ Client-side View counter (wrapped in Suspense) */}
+          {/* Client-side View counter */}
           <Suspense fallback={<Skeleton className="view_skeleton" />}>
             <View id={id} />
           </Suspense>
 
-          {/* ✅ Server-rendered Markdown body */}
+          {/* Server-rendered Markdown body */}
           <div
             className="prose prose-invert whitespace-pre-line leading-relaxed mt-6"
             dangerouslySetInnerHTML={{ __html: parsedContent }}
-          /></div>
+          />
+        </div>
 
+        <hr className="divider my-10" />
 
-          <hr className="divider" />
-
-      {poemOfTheDay.length > 0 && (
-  <div className="flex flex-col items-center justify-center mt-10">
-    <h2 className="text-2xl text-center font-bold mb-4">Best of Poetry</h2>
-    <ul>
-      {poemOfTheDay.map((poem: StartupTypeCard) => (
-        <li key={poem._id} className="mt-7 w-80 h-5 mb-6">
-          <StartupCard post={poem} />
-        </li>
-      ))}
-    </ul>
-  </div>
-)}
-
-      <br />
-      <br />
+        {/* Poem of the Day */}
+       {/* {poemOfTheDay.length > 0 && (
+          <div className="flex flex-col items-center justify-center mt-10">
+            <h2 className="text-2xl text-center font-bold mb-4">Best of Poetry</h2>
+            <ul>
+              {poemOfTheDay.map((poem) => (
+                <li key={poem._id} className="mt-7 w-80 h-5 mb-6">
+                  <StartupCard post={poem} />
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}*/}
       </section>
-      </main>
-
-      
-    </>
+    </main>
   );
 };
 
