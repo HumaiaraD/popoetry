@@ -1,4 +1,3 @@
-import Image from "next/image";
 import SearchBar from "../../components/SearchBar";
 import StartupCard, { StartupTypeCard } from "../../components/StartupCard";
 import { queryAllAuthors } from "../../sanity/lib/queries";
@@ -17,7 +16,7 @@ export default async function Home({
   const session = await auth();
   console.log(session?.user?.id);
 
-  async function typedSanityFetch<T>(query: string, params?: Record<string, any>): Promise<T> {
+  async function typedSanityFetch<T>(query: string, params?: Record<string, unknown>): Promise<T> {
   const { data } = await sanityFetch({ query, params });
   return data as T;
 }

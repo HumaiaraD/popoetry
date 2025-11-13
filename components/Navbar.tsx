@@ -1,6 +1,5 @@
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { auth, signOut, signIn,} from "@/auth";
 import { BadgePlus, LogOut } from "lucide-react";
 import { Avatar, AvatarImage } from "@radix-ui/react-avatar";

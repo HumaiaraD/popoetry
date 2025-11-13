@@ -62,22 +62,27 @@ export const POST_BY_AUTHOR_QUERY = defineQuery(`
 
 
 
-export const POST_BY_ID_QUERY =
-  defineQuery(`*[_type == "post" && _id == $id][0]{
-  _id, 
-  title, 
+export const POST_BY_ID_QUERY = defineQuery(`
+*[_type == "post" && _id == $id][0]{
+  _id,
+  title,
   slug,
   body,
   _createdAt,
   author -> {
-    _id, name, username, image, bio
-  }, 
+    _id,
+    name,
+    username,
+    image,
+    bio
+  },
   views,
   description,
-  category,
   image,
   pitch,
+  "categories": categories[]->title
 }`);
+
 
 export const POST_VIEWS_QUERY = defineQuery(`
     *[_type == "post" && _id == $id][0]{

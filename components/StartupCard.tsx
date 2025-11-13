@@ -4,7 +4,13 @@ import { Button } from "./ui/button";
 import { formatDate } from "../lib/utils";
 import { Author, Post } from "../sanity.types";
 
-export type StartupTypeCard = Omit<Post, "author"> & { author?: Author };
+
+// Map Sanity types to TypeScript for your card
+export type StartupTypeCard = Omit<Post, 'author'> & {
+  author?: Author | null;
+  categories?: { _id: string; title: string; slug: { current: string } }[];
+  body?: { _type: string; children: { text: string }[] }[];
+};
 
 interface StartupCardProps {
   post: StartupTypeCard;
@@ -18,36 +24,26 @@ const StartupCard = ({ post }: StartupCardProps) => {
     _id,
     body,
     categories = [],
-    title = "Untitled",
+    title,
   } = post;
 
   // fallback category
-  const category = (categories as any)?.[0]?.title || "Uncategorized";
+ const category = post.categories?.[0]?.title || "Uncategorized";
 
-  // get text snippet safely
- // Get first text block
+const getSnippet = (body?: { _type: string; children: { text: string }[] }[]) => {
+  if (!body || body.length === 0) return "No description available.";
 
-const getSnippet = (body: any) => {
-  if (!body) return "No description available.";
+  // Flatten all text from blocks
+  const text = body
+    .filter((b) => b._type === "block" && Array.isArray(b.children))
+    .map((b) => b.children.map((c) => c.text).join(" "))
+    .join(" ");
 
-  if (typeof body === "string") {
-    // If it's a string (Markdown), just take first 100 chars
-    return body.slice(0, 100) + (body.length > 100 ? "..." : "");
-  }
-
-  if (Array.isArray(body)) {
-    // If it's blocks
-    const textBlocks = body
-      .filter((b) => b._type === "block" && Array.isArray(b.children))
-      .map((b) => b.children.map((c: any) => c.text).join(" "))
-      .join(" ");
-
-    return textBlocks.slice(0, 100) + (textBlocks.length > 100 ? "..." : "");
-  }
-
-  return "No description available.";
+  return text.length > 100 ? text.slice(0, 100) + "..." : text;
 };
-const snippet = getSnippet(body);
+
+const snippet = getSnippet(post.body);
+
 
   return (
     <li className="border-6 border-black rounded-2xl p-5 group hover:bg-gray-200 hover:border-gray-300 transition-colors duration-300">

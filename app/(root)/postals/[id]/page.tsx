@@ -1,33 +1,35 @@
 import React, { Suspense } from "react";
 import { client } from "@/sanity/lib/client";
-import { PLAYLIST_BY_SLUG_QUERY, POST_BY_ID_QUERY } from "@/sanity/lib/queries";
+import { POST_BY_ID_QUERY } from "@/sanity/lib/queries";
 import { notFound } from "next/navigation";
 import { formatDate } from "@/lib/utils";
 import Link from "next/link";
 import View from "@/components/View";
 import MarkdownIt from "markdown-it";
 import { Skeleton } from "@/components/ui/skeleton";
-import StartupCard, { StartupTypeCard } from "@/components/StartupCard";
 
 // Initialize markdown-it once (server-side)
 const md = new MarkdownIt();
 
+type SanityBody = any[] | string | undefined;
+
+
 // Helper to convert Sanity Portable Text body to plain string
-const getBodyString = (body: any) => {
+const getBodyString = (body: SanityBody) => {
   if (!body) return "";
 
   if (typeof body === "string") return body;
 
   if (Array.isArray(body)) {
-
     return body
-      .filter((b) => b._type === "block" && Array.isArray(b.children))
-      .map((b) => b.children.map((c: any) => c.text).join(" "))
+      .filter((b: any) => b._type === "block" && Array.isArray(b.children))
+      .map((b: any) => b.children.map((c: any) => c.text).join(" "))
       .join("\n");
   }
 
   return "";
 };
+
 
 export const experimental_ppr = true;
 
@@ -70,7 +72,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
 
             {/* Category */}
             <div className="category-tag">
-              {post.category?.[0] || "Uncategorized"}
+              {post.categories?.[0] || "Uncategorized"}
             </div>
           </div>
 

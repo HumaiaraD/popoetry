@@ -85,7 +85,7 @@ const PostalForm = () => {
   });
 
   return (
-    <form action={formAction} className="startup-form">
+    <form action={formAction} className="max-w-2xl mx-auto bg-white my-10 space-y-8 px-6">
       <div>
         <label htmlFor="title" className="startup-form_label">
           Title
@@ -135,7 +135,7 @@ const PostalForm = () => {
         {errors.post && <p className="startup-form_error">{errors.post}</p>}
       </div>
 
-      <Button type="submit" className="startup-form-btn text-black" disabled={isPending}>
+      <Button type="submit" className="bg-black rounded-full p-5 min-h-[70px] w-full font-bold text-white text-[18px]" disabled={isPending}>
         {isPending ? "Submitting..." : "Submit Your Poem"}
         <Send className="size-6 ml-2" />
       </Button>
