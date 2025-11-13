@@ -498,7 +498,7 @@ export type POST_BY_AUTHOR_QUERYResult = Array<{
   }> | null;
 }>;
 // Variable: POST_BY_ID_QUERY
-// Query: *[_type == "post" && _id == $id][0]{  _id,   title,   slug,  body,  _createdAt,  author -> {    _id, name, username, image, bio  },   views,  description,  category,  image,  pitch,}
+// Query: *[_type == "post" && _id == $id][0]{  _id,  title,  slug,  body,  _createdAt,  author -> {    _id,    name,    username,    image,    bio  },  views,  description,  image,  pitch,  "categories": categories[]->title}
 export type POST_BY_ID_QUERYResult = {
   _id: string;
   title: string | null;
@@ -572,9 +572,9 @@ export type POST_BY_ID_QUERYResult = {
   } | null;
   views: number | null;
   description: null;
-  category: null;
   image: null;
   pitch: null;
+  categories: Array<string | null> | null;
 } | null;
 // Variable: POST_VIEWS_QUERY
 // Query: *[_type == "post" && _id == $id][0]{        _id, views    }
@@ -718,7 +718,7 @@ declare module "@sanity/client" {
   interface SanityQueries {
     "\n  *[_type == \"post\" && defined(slug.current) && \n    (\n      !defined($search) ||\n      title match $search ||\n      categories[]->title match $search ||\n      author->name match $search\n    )\n    ] | order(_createdAt desc) {\n    _id,\n    title,\n    slug,\n    _createdAt,\n    author -> {\n      _id,\n      name,\n      slug,\n      image,\n      bio,\n    },\n    views,\n    mainImage,\n    categories[] -> {\n      _id,\n      title,\n      slug\n    },\n    body\n  }\n": QueryAllAuthorsResult;
     "\n  *[_type == \"post\" && defined(slug.current) && author._ref == $id] \n  | order(_createdAt desc) {\n    _id,\n    _type,\n    _rev,\n    _updatedAt,\n    title,\n    slug,\n    _createdAt,\n    author -> {\n      _id,\n      name,\n      slug,\n      image,\n      bio\n    },\n    views,\n    mainImage,\n    categories[] -> {\n      _id,\n      title,\n      slug\n    },\n    body\n  }\n": POST_BY_AUTHOR_QUERYResult;
-    "*[_type == \"post\" && _id == $id][0]{\n  _id, \n  title, \n  slug,\n  body,\n  _createdAt,\n  author -> {\n    _id, name, username, image, bio\n  }, \n  views,\n  description,\n  category,\n  image,\n  pitch,\n}": POST_BY_ID_QUERYResult;
+    "\n*[_type == \"post\" && _id == $id][0]{\n  _id,\n  title,\n  slug,\n  body,\n  _createdAt,\n  author -> {\n    _id,\n    name,\n    username,\n    image,\n    bio\n  },\n  views,\n  description,\n  image,\n  pitch,\n  \"categories\": categories[]->title\n}": POST_BY_ID_QUERYResult;
     "\n    *[_type == \"post\" && _id == $id][0]{\n        _id, views\n    }\n": POST_VIEWS_QUERYResult;
     "\n    *[_type == \"author\" && id == $id][0]{\n    _id, \n    id,\n    name, \n    username,\n    email,\n    image, bio\n    }\n  ": AUTHOR_BY_GITHUB_ID_QUERYResult;
     "\n    *[_type == \"author\" && _id == $id][0]{\n    _id, \n    id,\n    name, \n    username,\n    email,\n    image, bio\n    }\n  ": AUTHOR_BY_ID_QUERYResult;

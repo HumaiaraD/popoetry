@@ -46,7 +46,9 @@ const Page = async ({ params }: { params: { id: string } }) => {
  
 
   // Render post body as HTML
-  const parsedContent = md.render(getBodyString(post.body));
+const bodyString = getBodyString(post.body ?? "");
+const parsedContent = md.render(bodyString);
+
 
   return (
     <main className="min-h-screen">
