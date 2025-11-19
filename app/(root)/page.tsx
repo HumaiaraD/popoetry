@@ -1,4 +1,3 @@
-
 import SearchBar from "../../components/SearchBar";
 import StartupCard, { StartupTypeCard } from "../../components/StartupCard";
 import { queryAllAuthors } from "../../sanity/lib/queries";
@@ -10,9 +9,12 @@ export const revalidate = 0;
 export default async function Home({
   searchParams,
 }: {
-  searchParams: { query?: string }; // <-- Make it required
+  searchParams?: Record<string, string | string[] | undefined>;
 }) {
-  const query = searchParams.query ?? null;
+  const query = Array.isArray(searchParams?.query)
+    ? searchParams.query[0]
+    : searchParams?.query ?? null;
+
   const params = { search: query };
 
   const session = await auth();
@@ -39,7 +41,7 @@ export default async function Home({
         </p>
 
         <p className="sub-heading">Submit your poems to the platform.</p>
-<SearchBar query={query ?? ""} />
+        <SearchBar query={query ?? ""} />
       </section>
 
       <section className="section-container">
