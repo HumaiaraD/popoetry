@@ -59,7 +59,7 @@ const parsedContent = md.render(bodyString);
     <main className="min-h-screen">
       {/* Header */}
       <section className="pattern black-container py-10 text-center">
-        <h1 className="text-6xl font-bold text-white">"{post.title}"</h1>
+        <h1 className="text-6xl font-bold text-white">{post.title}</h1>
         <p className="text-white mt-4">{post.author?.name}</p>
         <p className="text-white">{formatDate(post._createdAt)}</p>
       </section>
