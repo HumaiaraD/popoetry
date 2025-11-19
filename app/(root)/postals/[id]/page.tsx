@@ -11,7 +11,12 @@ import { Skeleton } from "@/components/ui/skeleton";
 // Initialize markdown-it once (server-side)
 const md = new MarkdownIt();
 
-type SanityBody = any[] | string | undefined;
+type SanityBody = unknown[] | string | undefined;
+
+type Block = {
+  _type: string;
+  children?: { text: string }[];
+};
 
 
 // Helper to convert Sanity Portable Text body to plain string
@@ -22,8 +27,8 @@ const getBodyString = (body: SanityBody) => {
 
   if (Array.isArray(body)) {
     return body
-      .filter((b: any) => b._type === "block" && Array.isArray(b.children))
-      .map((b: any) => b.children.map((c: any) => c.text).join(" "))
+      .filter((b): b is Required<Block> => b._type === "block" && Array.isArray(b.children))
+      .map((b) => b.children.map((c) => c.text).join(" "))
       .join("\n");
   }
 

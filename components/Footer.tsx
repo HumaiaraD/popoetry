@@ -6,7 +6,7 @@ const Footer = () => {
       <p className="text-2xl text-gray-500">
         &copy; {new Date().getFullYear()} PoPoetry. All rights reserved.
       </p>
-      <p className="text-white text-2xl font-extrabold font-serif italic">"A poem begins as a lump in the throat, a sense of wrong, a homesickness, a lovesickness.”</p>
+      <p className="text-white text-2xl font-extrabold font-serif italic">"A poem begins as a lump in the throat, a sense of wrong, a homesickness, a lovesickness."</p>
       <p className="text-white text-3xl font-bold">— Robert Frost</p>
       <br />
       <br />

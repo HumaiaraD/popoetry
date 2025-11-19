@@ -11,12 +11,17 @@ import { formSchema } from "@/lib/validation";
 import { createPost } from "@/lib/actions";
 import { toast } from "sonner";
 
+type FormState = {
+  error: string;
+  status: "INITIAL" | "SUCCESS" | "ERROR";
+};
+
 const PostalForm = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [post, setPost] = useState("");
   const router = useRouter();
 
-  const handleFormSubmit = async (prevState: any, formData: FormData) => {
+  const handleFormSubmit = async (prevState: FormState, formData: FormData) => {
     try {
       // Use state for MDEditor content
       formData.set("post", post);

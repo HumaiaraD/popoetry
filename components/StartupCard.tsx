@@ -22,8 +22,6 @@ const StartupCard = ({ post }: StartupCardProps) => {
     author,
     views = 0,
     _id,
-    body,
-    categories = [],
     title,
   } = post;
 
