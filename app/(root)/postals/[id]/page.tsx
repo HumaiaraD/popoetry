@@ -7,32 +7,39 @@ import Link from "next/link";
 import View from "@/components/View";
 import MarkdownIt from "markdown-it";
 import { Skeleton } from "@/components/ui/skeleton";
+import { PortableText } from '@portabletext/react'
+
+
 
 // Initialize markdown-it once (server-side)
 const md = new MarkdownIt();
 
-type SanityBody = unknown[] | string | undefined;
+type SanityBody = (PortableTextBlock | Record<string, unknown>)[] | string | undefined;
 
-type Block = {
+type PortableTextBlock = {
   _type: string;
-  children?: { text: string }[];
+  children?: { _type: string; text: string }[];
 };
 
 
 // Helper to convert Sanity Portable Text body to plain string
-const getBodyString = (body: SanityBody) => {
+const getBodyString = (body: SanityBody): string => {
   if (!body) return "";
 
   if (typeof body === "string") return body;
 
-  if (Array.isArray(body)) {
-    return body
-      .filter((b): b is Required<Block> => b._type === "block" && Array.isArray(b.children))
-      .map((b) => b.children.map((c) => c.text).join(" "))
-      .join("\n");
-  }
+  if (!Array.isArray(body)) return "";
 
-  return "";
+   return body
+    .filter((b): b is PortableTextBlock => b._type === "block" && Array.isArray(b.children))
+    .map((b) =>
+      b.children
+        ?.map((c) => c.text) // extract text safely
+        .filter(Boolean)      // remove empty strings or undefined
+        .join(" ") ?? ""      // join children text
+    )
+    .filter(Boolean)          // remove empty blocks
+    .join("\n");              // join blocks with line breaks
 };
 
 
