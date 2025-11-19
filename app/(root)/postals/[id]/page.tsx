@@ -7,7 +7,6 @@ import Link from "next/link";
 import View from "@/components/View";
 import MarkdownIt from "markdown-it";
 import { Skeleton } from "@/components/ui/skeleton";
-import { PortableText } from '@portabletext/react'
 
 
 

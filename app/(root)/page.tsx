@@ -6,29 +6,42 @@ import { sanityFetch, SanityLive } from "@/sanity/lib/live";
 
 export const revalidate = 0;
 
-export default async function Home({
+//export default async function Home({
+//  searchParams,
+//}: {
+  //searchParams?: Record<string, string | string[] | undefined>;
+//}) {
+  //const query = Array.isArray(searchParams?.query)
+  //  ? searchParams.query[0]
+  //  : searchParams?.query ?? null;
+
+  //const params = { search: query };
+
+  //const session = await auth();
+  //console.log(session?.user?.id);
+
+  //async function typedSanityFetch<T>(
+  //  query: string,
+  //  params?: Record<string, unknown>
+  //): Promise<T> {
+  //  const { data } = await sanityFetch({ query, params });
+  //  return data as T;
+  //}
+
+  //const posts = (await typedSanityFetch<StartupTypeCard[]>(queryAllAuthors, params)) || [];
+
+  export default async function Home({
   searchParams,
 }: {
-  searchParams?: Record<string, string | string[] | undefined>;
+  searchParams?: { query?: string };
 }) {
-  const query = Array.isArray(searchParams?.query)
-    ? searchParams.query[0]
-    : searchParams?.query ?? null;
-
+  const query = searchParams?.query ?? null;
   const params = { search: query };
-
+  
   const session = await auth();
-  console.log(session?.user?.id);
+  console.log(session?.id);
 
-  async function typedSanityFetch<T>(
-    query: string,
-    params?: Record<string, unknown>
-  ): Promise<T> {
-    const { data } = await sanityFetch({ query, params });
-    return data as T;
-  }
-
-  const posts = (await typedSanityFetch<StartupTypeCard[]>(queryAllAuthors, params)) || [];
+  const posts = (await sanityFetch<StartupTypeCard[]>({ query: queryAllAuthors, params })).data || [];
 
   return (
     <>
