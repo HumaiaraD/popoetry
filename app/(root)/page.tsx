@@ -1,28 +1,32 @@
+
 import SearchBar from "../../components/SearchBar";
 import StartupCard, { StartupTypeCard } from "../../components/StartupCard";
 import { queryAllAuthors } from "../../sanity/lib/queries";
 import { auth } from "@/auth";
 import { sanityFetch, SanityLive } from "@/sanity/lib/live";
+
 export const revalidate = 0;
 
-export default async function Home({
-  searchParams,
-}: {
-  searchParams: { query?: string };
-}) {
-  const query = searchParams.query;
-  const params = { search: query || null };
+interface PageProps {
+  searchParams?: { query?: string };
+}
+
+export default async function Home({ searchParams }: PageProps) {
+  const query = searchParams?.query ?? null;
+  const params = { search: query };
 
   const session = await auth();
   console.log(session?.user?.id);
 
-  async function typedSanityFetch<T>(query: string, params?: Record<string, unknown>): Promise<T> {
-  const { data } = await sanityFetch({ query, params });
-  return data as T;
-}
+  async function typedSanityFetch<T>(
+    query: string,
+    params?: Record<string, unknown>
+  ): Promise<T> {
+    const { data } = await sanityFetch({ query, params });
+    return data as T;
+  }
 
-// Usage
-const posts = await typedSanityFetch<StartupTypeCard[]>(queryAllAuthors, params);
+  const posts = (await typedSanityFetch<StartupTypeCard[]>(queryAllAuthors, params)) || [];
 
   return (
     <>
@@ -35,7 +39,7 @@ const posts = await typedSanityFetch<StartupTypeCard[]>(queryAllAuthors, params)
         </p>
 
         <p className="sub-heading">Submit your poems to the platform.</p>
-        <SearchBar query={query} />
+<SearchBar query={query ?? ""} />
       </section>
 
       <section className="section-container">
@@ -47,7 +51,7 @@ const posts = await typedSanityFetch<StartupTypeCard[]>(queryAllAuthors, params)
           {posts.length > 0 ? (
             posts.map((post) => <StartupCard key={post._id} post={post} />)
           ) : (
-            <p className="text-center text-20-regular">No poems found.</p>
+            <li className="text-center text-20-regular">No poems found.</li>
           )}
         </ul>
       </section>
