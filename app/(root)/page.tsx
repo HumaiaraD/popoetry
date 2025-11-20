@@ -6,20 +6,13 @@ import { sanityFetch, SanityLive } from "@/sanity/lib/live";
 
 export const revalidate = 0;
 
-type HomePageProps = {
-  searchParams?: {
-    query?: string;
-  };
-};
-
-export default async function Home({
-  searchParams } : HomePageProps) {
+export default async function Home({ searchParams }: any) {
   const query = searchParams?.query ?? null;
-  
+
   const session = await auth();
   console.log(session?.id);
 
-   const params = {
+  const params = {
     search: query ?? "",
   };
 
