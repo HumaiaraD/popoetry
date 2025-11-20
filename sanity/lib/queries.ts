@@ -4,11 +4,11 @@ export const queryAllAuthors = defineQuery(`
   *[_type == "post" && defined(slug.current) && 
     (
       !defined($search) ||
-      title match $search ||
-      categories[]->title match $search ||
-      author->name match $search
+      title match "*" + $search + "*" ||
+      categories[]->title match "*" + $search + "*" ||
+      author->name match "*" + $search + "*"
     )
-    ] | order(_createdAt desc) {
+  ] | order(_createdAt desc) {
     _id,
     title,
     slug,
@@ -30,6 +30,7 @@ export const queryAllAuthors = defineQuery(`
     body
   }
 `);
+
 
 export const POST_BY_AUTHOR_QUERY = defineQuery(`
   *[_type == "post" && defined(slug.current) && author._ref == $id] 
