@@ -309,7 +309,7 @@ export type AllSanitySchemaTypes = Playlist | Post | Author | Category | BlockCo
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./sanity/lib/queries.ts
 // Variable: queryAllAuthors
-// Query: *[_type == "post" && defined(slug.current) &&     (      !defined($search) ||      title match $search ||      categories[]->title match $search ||      author->name match $search    )    ] | order(_createdAt desc) {    _id,    title,    slug,    _createdAt,    author -> {      _id,      name,      slug,      image,      bio,    },    views,    mainImage,    categories[] -> {      _id,      title,      slug    },    body  }
+// Query: *[_type == "post" && defined(slug.current) &&     (      !defined($search) ||      title match "*" + $search + "*" ||      categories[]->title match "*" + $search + "*" ||      author->name match "*" + $search + "*"    )  ] | order(_createdAt desc) {    _id,    title,    slug,    _createdAt,    author -> {      _id,      name,      slug,      image,      bio,    },    views,    mainImage,    categories[] -> {      _id,      title,      slug    },    body  }
 export type QueryAllAuthorsResult = Array<{
   _id: string;
   title: string | null;
@@ -716,7 +716,7 @@ export type PLAYLIST_BY_SLUG_QUERYResult = {
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "\n  *[_type == \"post\" && defined(slug.current) && \n    (\n      !defined($search) ||\n      title match $search ||\n      categories[]->title match $search ||\n      author->name match $search\n    )\n    ] | order(_createdAt desc) {\n    _id,\n    title,\n    slug,\n    _createdAt,\n    author -> {\n      _id,\n      name,\n      slug,\n      image,\n      bio,\n    },\n    views,\n    mainImage,\n    categories[] -> {\n      _id,\n      title,\n      slug\n    },\n    body\n  }\n": QueryAllAuthorsResult;
+    "\n  *[_type == \"post\" && defined(slug.current) && \n    (\n      !defined($search) ||\n      title match \"*\" + $search + \"*\" ||\n      categories[]->title match \"*\" + $search + \"*\" ||\n      author->name match \"*\" + $search + \"*\"\n    )\n  ] | order(_createdAt desc) {\n    _id,\n    title,\n    slug,\n    _createdAt,\n    author -> {\n      _id,\n      name,\n      slug,\n      image,\n      bio,\n    },\n    views,\n    mainImage,\n    categories[] -> {\n      _id,\n      title,\n      slug\n    },\n    body\n  }\n": QueryAllAuthorsResult;
     "\n  *[_type == \"post\" && defined(slug.current) && author._ref == $id] \n  | order(_createdAt desc) {\n    _id,\n    _type,\n    _rev,\n    _updatedAt,\n    title,\n    slug,\n    _createdAt,\n    author -> {\n      _id,\n      name,\n      slug,\n      image,\n      bio\n    },\n    views,\n    mainImage,\n    categories[] -> {\n      _id,\n      title,\n      slug\n    },\n    body\n  }\n": POST_BY_AUTHOR_QUERYResult;
     "\n*[_type == \"post\" && _id == $id][0]{\n  _id,\n  title,\n  slug,\n  body,\n  _createdAt,\n  author -> {\n    _id,\n    name,\n    username,\n    image,\n    bio\n  },\n  views,\n  description,\n  image,\n  pitch,\n  \"categories\": categories[]->title\n}": POST_BY_ID_QUERYResult;
     "\n    *[_type == \"post\" && _id == $id][0]{\n        _id, views\n    }\n": POST_VIEWS_QUERYResult;

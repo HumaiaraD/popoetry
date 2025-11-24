@@ -6,28 +6,30 @@ import { sanityFetch, SanityLive } from "@/sanity/lib/live";
 
 export const revalidate = 0;
 
-type HomePageProps = {
+export default async function Home({
+  searchParams,
+}: {
   searchParams?: {
     query?: string;
   };
-};
-
-export default async function Home({ searchParams }: HomePageProps) {
-  const query = searchParams?.query ?? null;
+}) {
+  const query = searchParams?.query ?? "";
 
   const session = await auth();
-  console.log(session?.id);
 
-  const params = {
-    search: query ?? "",
-  };
+  const params = { search: query };
 
-  const posts = (await sanityFetch<StartupTypeCard[]>({ query: queryAllAuthors, params })).data || [];
+  const { data: posts = [] } = await sanityFetch<StartupTypeCard[]>({
+    query: queryAllAuthors,
+    params,
+  });
 
   return (
     <>
       <section className="pattern black-container">
-        <h1 className="text-white text-8xl font-extrabold font-serif">PoPoetry</h1>
+        <h1 className="text-white text-8xl font-extrabold font-serif">
+          PoPoetry
+        </h1>
         <p className="text-white text-5xl text-center m-4">
           A place where poetry lives like a blog,
           <br />
@@ -35,12 +37,12 @@ export default async function Home({ searchParams }: HomePageProps) {
         </p>
 
         <p className="sub-heading">Submit your poems to the platform.</p>
-        <SearchBar query={query ?? ""} />
+        <SearchBar query={query} />
       </section>
 
       <section className="section-container">
         <p className="text-30-semibold">
-          {query ? `Searching for "${query}"` : `All Poems`}
+          {query ? `Searching for "${query}"` : "All Poems"}
         </p>
 
         <ul className="mt-7 card-grid">
