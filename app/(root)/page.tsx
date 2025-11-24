@@ -9,13 +9,11 @@ export const revalidate = 0;
 export default async function Home({
   searchParams,
 }: {
-  searchParams?: {
-    query?: string;
-  };
+  searchParams?: { query?: string }; // matches the override
 }) {
   const query = searchParams?.query ?? "";
 
-  const session = await auth();
+  const session = await auth(); // optional, currently unused
 
   const params = { search: query };
 
