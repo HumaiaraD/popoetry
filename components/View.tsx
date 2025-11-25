@@ -2,7 +2,6 @@ import "server-only";
 
 
 import React from "react";
-import Ping from "./Ping";
 import { POST_VIEWS_QUERY } from "@/sanity/lib/queries";
 import { client } from "@/sanity/lib/client";
 
@@ -35,7 +34,6 @@ const View = async ({ id }: { id: string }) => {
         <>
             <div className="bg-black text-white w-[12%] rounded-xl p-3">
                 <div className="absolute top-2 right-2">
-                    <Ping />
                 </div>
 
                 <p className="view-text ">

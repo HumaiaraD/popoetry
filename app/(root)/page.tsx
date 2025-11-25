@@ -6,19 +6,26 @@ import { sanityFetch, SanityLive } from "@/sanity/lib/live";
 
 export const revalidate = 0;
 
-export default async function Home({
+export default async function Page({
   searchParams,
 }: {
-  searchParams: Promise<{ query?: string }>;
+  searchParams?: Record<string, string | string[] | undefined>;
 }) {
-  const query = (await searchParams).query;
-  const params = { search: query || null };
 
+  // get query from search params
+  const query = searchParams?.query || null;
+  const sanityParams = { search: query };
+
+  // async calls
   const session = await auth();
 
   console.log(session?.id);
 
-  const { data: posts } = await sanityFetch({ query: queryAllAuthors, params });
+  const { data: posts } = await sanityFetch({
+    query: queryAllAuthors,
+    params: sanityParams,
+  });
+
 
   return (
     <>
@@ -31,7 +38,7 @@ export default async function Home({
         </p>
 
         <p className="sub-heading">Submit your poems to the platform.</p>
-        <SearchBar query={query ?? ""} />
+        <SearchBar query={Array.isArray(query) ? query[0] : (query ?? "")} />
       </section>
 
       <section className="section-container">

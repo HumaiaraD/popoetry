@@ -1,3 +1,4 @@
+"use client"
 import { EyeIcon } from "lucide-react";
 import Link from "next/link";
 import { Button } from "./ui/button";
@@ -8,7 +9,7 @@ import { Author, Post } from "../sanity.types";
 // Map Sanity types to TypeScript for your card
 export type StartupTypeCard = Omit<Post, 'author'> & {
   author?: Author | null;
-  categories?: { _id: string; title: string; slug: { current: string } }[];
+  //categories?: { _id: string; title: string; slug: { current: string } }[];
   body?: { _type: string; children: { text: string }[] }[];
 };
 
@@ -26,7 +27,7 @@ const StartupCard = ({ post }: StartupCardProps) => {
   } = post;
 
   // fallback category
- const category = post.categories?.[0]?.title || "Uncategorized";
+ //const category = post.categories?.[0]?.title || "Uncategorized";
 
 const getSnippet = (body?: { _type: string; children: { text: string }[] }[]) => {
   if (!body || body.length === 0) return "No description available.";
@@ -82,11 +83,9 @@ const snippet = getSnippet(post.body);
 
       {/* Footer */}
       <div className="flex-between gap-3 mt-5">
-        <Link href={`/?query=${category.toLowerCase()}`}>
-          <p className="text-16-medium hover:underline">{category}</p>
-        </Link>
+        
         <Button className="bg-black text-white hover:bg-slate-600" asChild>
-          <Link href={`/postals/${_id}`}>Details</Link>
+          <Link href={`/postals/${_id}`}>Read poem</Link>
         </Button>
       </div>
     </li>

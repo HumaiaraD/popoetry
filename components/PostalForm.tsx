@@ -16,6 +16,7 @@ type FormState = {
   status: "INITIAL" | "SUCCESS" | "ERROR";
 };
 
+
 const PostalForm = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [post, setPost] = useState("");

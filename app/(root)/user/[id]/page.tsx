@@ -6,7 +6,7 @@ import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
 import UserPosts from "@/components/UserPosts";
 import { Suspense } from "react";
-import StartupCardSkeleton from "@/components/StartupCard";
+import StartupCardSkeleton from "@/components/StartupCardSkeleton";
 
 export const dynamic = "force-dynamic"; 
 
@@ -34,7 +34,7 @@ const Page = async ( {params} : {params: {id: string}}) => {
  {imageUrl && (
           <Image
             src={imageUrl}
-            alt={user.name}
+            alt="image"
             width={250}
             height={250}
             className="profile_image"
