@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="pattern bg-black relative p-40 text-center mt-20">
+    <footer className="pattern bg-black relative p-40 text-center ">
       <p className="text-2xl text-gray-500">
         &copy; {new Date().getFullYear()} PoPoetry. All rights reserved.
       </p>

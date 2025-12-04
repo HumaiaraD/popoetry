@@ -2,7 +2,8 @@ import SearchBar from "../../components/SearchBar";
 import StartupCard, { StartupTypeCard } from "../../components/StartupCard";
 import { queryAllAuthors } from "../../sanity/lib/queries";
 import { auth } from "@/auth";
-import { sanityFetch, SanityLive } from "@/sanity/lib/live";
+import { sanityFetch} from "@/sanity/lib/live";
+import SanityLiveComponent from "@/components/SanityLiveComponent";
 
 export const revalidate = 0;
 
@@ -29,8 +30,8 @@ export default async function Page({
 
   return (
     <>
-      <section className="pattern black-container">
-        <h1 className="text-white text-8xl font-extrabold font-serif">PoPoetry</h1>
+      <section className="pattern black-container ">
+        <h1 className="text-white text-8xl font-extrabold dancing-script">PoPoetry</h1>
         <p className="text-white text-5xl text-center m-4">
           A place where poetry lives like a blog,
           <br />
@@ -55,7 +56,7 @@ export default async function Page({
         </ul>
       </section>
 
-      <SanityLive />
+      <SanityLiveComponent />
     </>
   );
 }

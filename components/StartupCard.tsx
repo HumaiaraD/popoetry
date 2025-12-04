@@ -67,7 +67,7 @@ const snippet = getSnippet(post.body);
           )}
 
           
-            <h3 className="text-[26px] line-clamp-1 font-semibold hover:underline">
+            <h3 className="text-[26px] line-clamp-1 dancing-script">
               {title}
             </h3>
           

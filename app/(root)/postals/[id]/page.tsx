@@ -91,7 +91,7 @@ const parsedContent = md.render(bodyString);
 
           {/* Client-side View counter */}
           <Suspense fallback={<Skeleton className="view_skeleton" />}>
-            <View id={id} />
+            <View id= {id} />
           </Suspense>
 
           {/* Server-rendered Markdown body */}
@@ -101,7 +101,6 @@ const parsedContent = md.render(bodyString);
           />
         </div>
 
-        <hr className="divider my-10" />
 
         {/* Poem of the Day */}
        {/* {poemOfTheDay.length > 0 && (

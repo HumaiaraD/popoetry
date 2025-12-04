@@ -41,6 +41,11 @@
   }
 }
 
+.dancing-script {
+  font-family: 'Dancing Script', cursive;
+  font-weight: 700; /* font-bold */
+}
+
 .sub-heading {
   font-weight: 500; /* font-medium */
   font-size: 20px;

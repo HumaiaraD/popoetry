@@ -13,7 +13,7 @@ const Navbar: React.FC = async () => {
         <>
             <header className="px-5 py-3 bg-white shadow-sm font-work-sans">
                 <nav className="flex justify-between itmes-center">
-                    <Link href="/" ><h2 className="font-serif font-bold text-2xl">PoPoetry</h2>
+                    <Link href="/" ><h2 className="font-serif font-bold text-2xl dancing-script font-bold">PoPoetry</h2>
                     </Link>
 
                     <div className="flex items-center gap-5">
