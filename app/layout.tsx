@@ -1,7 +1,7 @@
 
 import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Dancing_Script } from "next/font/google";
+import { Geist, Geist_Mono, Dancing_Script, The_Girl_Next_Door } from "next/font/google";
 import "./globals.css";
 import 'easymde/dist/easymde.min.css';
 
@@ -16,6 +16,12 @@ const dancingScript = Dancing_Script({
   subsets: ["latin"],
   weight: "700",
 });
+
+const theGirlNextDoor = The_Girl_Next_Door({
+  variable: "--font-the-girl-next-door",
+  subsets: ["latin"],
+  weight: "400",
+})
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -34,7 +40,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} ${dancingScript.variable} antialiased`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} ${theGirlNextDoor.variable} ${dancingScript.variable} antialiased`}>
         {children}
 
         <Toaster />

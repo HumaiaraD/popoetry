@@ -47,7 +47,7 @@ export default async function Page({
           {query ? `Searching for "${query}"` : `All Poems`}
         </p>
 
-        <ul className="mt-7 card-grid">
+        <ul className="mt-7 card-grid ">
           {posts.length > 0 ? (
             posts.map((post: StartupTypeCard) => <StartupCard key={post._id} post={post} />)
           ) : (

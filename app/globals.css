@@ -46,6 +46,11 @@
   font-weight: 700; /* font-bold */
 }
 
+.the-girl-next-door {
+  font-family: 'The Girl Next Door', cursive;
+  font-weight: 400; /* font-normal */
+}
+
 .sub-heading {
   font-weight: 500; /* font-medium */
   font-size: 20px;
