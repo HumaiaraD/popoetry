@@ -12,7 +12,7 @@ const SearchBarReset = () => {
 
     return (
         <button type="reset" onClick={reset}>
-            <Link href="/" className="">
+            <Link href="/" className="bg-white text-black">
                 <X className="size-5" color="black" />
             </Link>
         </button>
