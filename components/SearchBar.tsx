@@ -6,7 +6,7 @@ import { Search } from "lucide-react";
 
 const SearchBar = ({ query }: { query?: string }) => {
     return (
-        <Form action="/" scroll={false} className="bg-white text-black rounded-2xl w-1/2 flex flex-row justify-between items-center px-4 py-2 mt-4">
+        <Form action="/" scroll={false} className="bg-white text-black rounded-3xl w-1/2 flex flex-row justify-between items-center px-4 py-2 mt-4">
             <input
                 name="query"
                 defaultValue={query}
