@@ -17,7 +17,7 @@ const SearchBar = ({ query }: { query?: string }) => {
             <div className="flex gap-2">
                 {query && <SearchBarReset />}
 
-                <button type="submit" className="">
+                <button type="submit" className="font-bold">
                     <Search className="size-8" color="black" />
                 </button>
             </div>
