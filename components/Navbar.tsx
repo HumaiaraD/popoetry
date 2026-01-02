@@ -1,13 +1,14 @@
-import React from "react";
 import Link from "next/link";
 import { auth, signOut, signIn,} from "@/auth";
 import { BadgePlus, LogOut } from "lucide-react";
 import { Avatar, AvatarImage } from "@radix-ui/react-avatar";
+import { getServerSession } from "next-auth";
 
 
-const Navbar: React.FC = async () => {
+const Navbar =  async() => {
 
-    const session = await auth();
+    //const session =  auth();
+    const session =  await getServerSession();
 
     return (
         <>

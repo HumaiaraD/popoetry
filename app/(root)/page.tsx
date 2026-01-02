@@ -4,6 +4,7 @@ import { queryAllAuthors } from "../../sanity/lib/queries";
 import { auth } from "@/auth";
 import { sanityFetch} from "@/sanity/lib/live";
 import SanityLiveComponent from "@/components/SanityLiveComponent";
+import { getServerSession } from "next-auth";
 
 export const revalidate = 60;
 
@@ -18,7 +19,9 @@ export default async function Page({
   const sanityParams = { search: query };
 
   // async calls
-  const session = await auth();
+  //const session = await auth();
+  const session =  await getServerSession();
+  
 
   console.log(session?.id);
 
